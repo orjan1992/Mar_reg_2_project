@@ -10,5 +10,5 @@ Par.Step_size = 0.01;
 Par.Sample_time = 0.01;
 Par.Thrust_lim = [1.03 2.5 0.98]';
 
-K_psi =0;%0.28;
+K_psi =0.28;%0.28;
 sim main.slx
