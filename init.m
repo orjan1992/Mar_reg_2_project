@@ -22,7 +22,7 @@ Par.Workspace.y_min = Par.Workspace.y_min_limit + Par.Workspace.threshold;
 Par.Workspace.y_max = Par.Workspace.y_max_limit - Par.Workspace.threshold;
 
 %% noise and dropout
-Par.SensNoiseEnabled = 1;
+Par.SensNoiseEnabled =1;
 Par.Freeze.Enable = 0;
 Par.Freeze.length = 1.5;
 Par.Freeze.threshold = 8;%3.0;
@@ -30,16 +30,16 @@ Par.Freeze.Power = 1;
 
 %Par.Step_size = 0.1;
 Par.Noise.Sample_time = 0.01;
-Par.Noise.Power = [0.00001 0.00001 0.000001];
+Par.Noise.Power = 0.00001;
 %Par.Sample_rate = 1/Par.Sample_time;
 
 %% thruster
 Par.Thrust_lim = [1.03 2.5 0.98]';
 
 %% Lowpass filter
-Par.Lowpass.omega.c_u = 20;
+Par.Lowpass.omega.c_u = 20; 
 Par.Lowpass.omega.c_v = Par.Lowpass.omega.c_u;
 Par.Lowpass.omega.c_psi = Par.Lowpass.omega.c_u;
-
+NPO_init;
 %sim('main', 'FixedStep', num2str(Par.Sample_time));
 %sim main.slx
