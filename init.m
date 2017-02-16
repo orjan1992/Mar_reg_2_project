@@ -5,7 +5,7 @@ nu_0 =[0 0 0];
 Par.K_psi_init = 0.28;
 
 %%thrust for simulink sim
-Par.Thrust = [1 0 0; 0.5 0.1 0];
+Par.Thrust = [1 0 0; 0.5 0 0];
 Par.thrust_time = [0; 10];
 
 %% outside workspace
@@ -36,8 +36,8 @@ Par.Sample_rate = 1/Par.Sample_time;
 Par.Thrust_lim = [1.03 2.5 0.98]';
 
 %% Lowpass filter
-Par.Lowpass.omega.c_u = 10;
+Par.Lowpass.omega.c_u = 100;
 Par.Lowpass.omega.c_v = Par.Lowpass.omega.c_u;
 Par.Lowpass.omega.c_psi = Par.Lowpass.omega.c_u;
 
-sim main.slx
+sim('main', 'FixedStep', num2str(Par.Sample_time));
