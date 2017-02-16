@@ -4,7 +4,7 @@ nu_0 =[0 0 0];
 Par.K_psi_init = 0.28;
 
 %%thrust for simulink sim
-Par.Thrust = [0 0 0; 0 0 0];
+Par.Thrust = [1 0 0; -1 0 0];
 Par.thrust_time = [0; 50];
 
 %% outside workspace
