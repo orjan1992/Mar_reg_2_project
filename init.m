@@ -1,21 +1,21 @@
 clear
 eta_0 = [0 0 0];
 nu_0 =[0 0 0];
-Par.tau_max = [1.03 0 0];
+%Par.tau_max = [1.03 0 0];
 Par.K_psi_init = 0.28;
 
 %%thrust for simulink sim
-Par.Thrust = [1 0 0];
-Par.thrust_time = inf;
+Par.Thrust = [1 0 0; 0.5 0.1 0];
+Par.thrust_time = [0; 10];
 
 %% outside workspace
 Par.Workspace.origin = [0, 0]';
-Par.Workspace.threshold = 1.5;
-Par.Workspace.scale = 1.5;
-Par.Workspace.x_min_limit = -5;
-Par.Workspace.x_max_limit = -Par.Workspace.x_min_limit;
-Par.Workspace.y_min_limit = Par.Workspace.x_min_limit;
-Par.Workspace.y_max_limit = -Par.Workspace.x_min_limit;
+Par.Workspace.threshold = 2;
+Par.Workspace.scale = 100;
+Par.Workspace.x_max_limit = 100;
+Par.Workspace.x_min_limit = -Par.Workspace.x_max_limit;
+Par.Workspace.y_min_limit = -Par.Workspace.x_max_limit;
+Par.Workspace.y_max_limit = Par.Workspace.x_max_limit;
 
 Par.Workspace.x_min = Par.Workspace.x_min_limit + Par.Workspace.threshold;
 Par.Workspace.x_max = Par.Workspace.x_max_limit - Par.Workspace.threshold;
