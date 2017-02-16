@@ -4,7 +4,7 @@ nu_0 =[0 0 0];
 Par.K_psi_init = 0.28;
 
 %%thrust for simulink sim
-Par.Thrust = [1 0 0; -1 0 0];
+Par.Thrust = [0 0 0; 0 0 0];
 Par.thrust_time = [0; 50];
 
 %% outside workspace
@@ -23,21 +23,23 @@ Par.Workspace.y_max = Par.Workspace.y_max_limit - Par.Workspace.threshold;
 
 %% noise and dropout
 Par.SensNoiseEnabled = 1;
-Par.Freeze.Enable = 1;
+Par.Freeze.Enable = 0;
 Par.Freeze.length = 1.5;
-Par.Freeze.threshold = 3.8;%3.0;
+Par.Freeze.threshold = 8;%3.0;
+Par.Freeze.Power = 1;
 
 %Par.Step_size = 0.1;
-Par.Sample_time = 0.001;
-Par.Sample_rate = 1/Par.Sample_time;
+Par.Noise.Sample_time = 0.01;
+Par.Noise.Power = [0.00001 0.00001 0.000001];
+%Par.Sample_rate = 1/Par.Sample_time;
 
 %% thruster
 Par.Thrust_lim = [1.03 2.5 0.98]';
 
 %% Lowpass filter
-Par.Lowpass.omega.c_u = 10;
+Par.Lowpass.omega.c_u = 20;
 Par.Lowpass.omega.c_v = Par.Lowpass.omega.c_u;
 Par.Lowpass.omega.c_psi = Par.Lowpass.omega.c_u;
 
-sim('main', 'FixedStep', num2str(Par.Sample_time));
+%sim('main', 'FixedStep', num2str(Par.Sample_time));
 %sim main.slx
