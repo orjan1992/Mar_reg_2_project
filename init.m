@@ -29,7 +29,7 @@ Par.Freeze.threshold = 8;%3.0;
 Par.Freeze.Power = 1;
 
 Par.Noise.Sample_time = 0.01;
-Par.Noise.Power = 0.00001;
+Par.Noise.Power = 1*(Par.Noise.Sample_time/300);
 %% Current generator
 Par.Current.Angle = 60; %degrees
 Par.Current.Velocity = 0.2; %m/s

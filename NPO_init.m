@@ -1,7 +1,7 @@
 %% Init file for NPO
 M = [16.79 0 0;0 15.79 0.554625;0 0.554625 2.76];
 NPO.invM = inv(M);
-NPO.Tinv = inv(100*diag([10 10 10]));
+NPO.Tinv = inv(diag([1000 1000 1000]));
 NPO.A_w = ones(6, 6);
 NPO.C_w = ones(3, 6);
 NPO.eta_0 = [0 0 0];
