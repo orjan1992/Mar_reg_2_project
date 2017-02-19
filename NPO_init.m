@@ -7,8 +7,8 @@ NPO.C_w = ones(3, 6);
 NPO.eta_0 = [0 0 0];
 NPO.nu_0 = [0 0 0];
 NPO.K_1 = [diag([0 0 0]); diag([0 0 0])];
-scale = 0.0001;
-NPO.K_2 = scale*0.1*diag([1.1 1.1 1.1]);
+scale = 1;
+NPO.K_2 = scale*diag([1.1 1.1 1.1]);
 
 NPO.K_4 = scale*diag(10*[0.1 0.1 0.1]);
-NPO.K_3 = 0.1*NPO.K_4;
+NPO.K_3 = 0*0.1*NPO.K_4;

@@ -28,11 +28,12 @@ Par.Freeze.length = 1.5;
 Par.Freeze.threshold = 8;%3.0;
 Par.Freeze.Power = 1;
 
-%Par.Step_size = 0.1;
 Par.Noise.Sample_time = 0.01;
 Par.Noise.Power = 0.00001;
-%Par.Sample_rate = 1/Par.Sample_time;
-
+%% Current generator
+Par.Current.Angle = 60; %degrees
+Par.Current.Velocity = 0.2; %m/s
+Par.Current.Enable = 0;
 %% thruster
 Par.Thrust_lim = [1.03 2.5 0.98]';
 
@@ -40,6 +41,8 @@ Par.Thrust_lim = [1.03 2.5 0.98]';
 Par.Lowpass.omega.c_u = 20; 
 Par.Lowpass.omega.c_v = Par.Lowpass.omega.c_u;
 Par.Lowpass.omega.c_psi = Par.Lowpass.omega.c_u;
+
+
 NPO_init;
 %sim('main', 'FixedStep', num2str(Par.Sample_time));
 %sim main.slx
