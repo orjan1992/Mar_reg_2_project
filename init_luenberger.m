@@ -1,8 +1,9 @@
 clear
 
 %%thrust for simulink sim
-Par.Thrust = [1 0 0; -1 0 0];
-Par.thrust_time = [0; 50];
+a = [0 1 0];
+Par.Thrust = [a;-a;a;-a;a;-a;a;-a];
+Par.thrust_time = [0; 10; 20; 30; 40; 50; 60; 70];
 
 %% outside workspace
 Par.Workspace.origin = [0, 0]';
@@ -19,22 +20,35 @@ Par.Workspace.y_min = Par.Workspace.y_min_limit + Par.Workspace.threshold;
 Par.Workspace.y_max = Par.Workspace.y_max_limit - Par.Workspace.threshold;
 
 %% noise and dropout
+Par.Noise.Enable = 1;
+Par.Noise.power = 1e-3;
+Par.Noise.Sample_freq = 100;
+
 Par.Freeze.Enable = 0;
 Par.Freeze.length = 1.5;
 Par.Freeze.threshold = 8;%3.0;
 Par.Freeze.Power = 1;
+Par.Sample_time = 1/Par.Noise.Sample_freq;
 
-Par.Noise.Enable = 0;
-Par.Noise.power = 1e-3;
-Par.Noise.Sample_freq = 100;
 %% thruster
 Par.Thrust_lim = [1.03 2.5 0.98]';
 
 %% Observer
-L_1 = [1 1 1];
-L_2 = [1 1 1];
+L_1 = [1 1 5];
+L_2 = [1 1 5];
 L_3 = [0 0 0];
 Par.Observer.M_inv = inv([16.79 0 0; 0 15.7900 0.5546; 0 0.5546 2.7600]);
 Par.Observer.L_1 = diag(L_1);
 Par.Observer.L_2 = diag(L_2);
 Par.Observer.L_3 = diag(L_3);
+
+%% checking L matrices
+if all(eig(Par.Observer.L_1*Par.Observer.L_2+ Par.Observer.L_2*Par.Observer.L_1)) > 0
+    fprintf('All eigenvalues OK for no Bias\n');
+end
+if Par.Observer.L_3 ~= zeros(3)
+    if (all(eig(Par.Observer.L_1*Par.Observer.L_2+ Par.Observer.L_2*Par.Observer.L_1 + 2*Par.Observer.L_3)) > 0) && (all(eig(Par.Observer.L_3\Par.Observer.L_1 - inv(Par.Observer.L_2))) > 0)
+        fprintf('Eigenvalues OK for bias.\n');
+    end
+end
+sim main_luenberger.slx
