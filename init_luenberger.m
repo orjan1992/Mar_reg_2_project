@@ -1,7 +1,6 @@
-clear
-
+clearvars -except variance number
 %%thrust for simulink sim
-a = [0 1 0];
+a = [1 0 0];
 Par.Thrust = [a;-a;a;-a;a;-a;a;-a];
 Par.thrust_time = [0; 10; 20; 30; 40; 50; 60; 70];
 
@@ -34,21 +33,23 @@ Par.Sample_time = 1/Par.Noise.Sample_freq;
 Par.Thrust_lim = [1.03 2.5 0.98]';
 
 %% Observer
-L_1 = [1 1 5];
-L_2 = [1 1 5];
-L_3 = [0 0 0];
+L_1 = [1 1 1];
+L_2 = [1 1 1];
+L_3 = [1 1 1];
 Par.Observer.M_inv = inv([16.79 0 0; 0 15.7900 0.5546; 0 0.5546 2.7600]);
 Par.Observer.L_1 = diag(L_1);
 Par.Observer.L_2 = diag(L_2);
 Par.Observer.L_3 = diag(L_3);
 
+sim('main_luenberger');
 %% checking L matrices
 if all(eig(Par.Observer.L_1*Par.Observer.L_2+ Par.Observer.L_2*Par.Observer.L_1)) > 0
     fprintf('All eigenvalues OK for no Bias\n');
 end
-if Par.Observer.L_3 ~= zeros(3)
+if sum(sum(Par.Observer.L_3 ~= zeros(3))) >= 1
     if (all(eig(Par.Observer.L_1*Par.Observer.L_2+ Par.Observer.L_2*Par.Observer.L_1 + 2*Par.Observer.L_3)) > 0) && (all(eig(Par.Observer.L_3\Par.Observer.L_1 - inv(Par.Observer.L_2))) > 0)
         fprintf('Eigenvalues OK for bias.\n');
     end
 end
-sim main_luenberger.slx
+plot_luenberger;
+
