@@ -20,7 +20,7 @@ Par.Workspace.y_max = Par.Workspace.y_max_limit - Par.Workspace.threshold;
 
 %% noise and dropout
 Par.Noise.Enable = 1;
-Par.Noise.power = 1e-3;
+Par.Noise.power = 1e-4;
 Par.Noise.Sample_freq = 100;
 
 Par.Freeze.Enable = 0;
@@ -33,9 +33,9 @@ Par.Sample_time = 1/Par.Noise.Sample_freq;
 Par.Thrust_lim = [1.03 2.5 0.98]';
 
 %% Observer
-L_1 = [1 1 1];
-L_2 = [1 1 1];
-L_3 = [1 1 1];
+L_1 = [1 1 1]*5;
+L_2 = [1 1 1]*1;
+L_3 = [1 1 1]*1;
 Par.Observer.M_inv = inv([16.79 0 0; 0 15.7900 0.5546; 0 0.5546 2.7600]);
 Par.Observer.L_1 = diag(L_1);
 Par.Observer.L_2 = diag(L_2);
@@ -47,8 +47,11 @@ if all(eig(Par.Observer.L_1*Par.Observer.L_2+ Par.Observer.L_2*Par.Observer.L_1)
     fprintf('All eigenvalues OK for no Bias\n');
 end
 if sum(sum(Par.Observer.L_3 ~= zeros(3))) >= 1
-    if (all(eig(Par.Observer.L_1*Par.Observer.L_2+ Par.Observer.L_2*Par.Observer.L_1 + 2*Par.Observer.L_3)) > 0) && (all(eig(Par.Observer.L_3\Par.Observer.L_1 - inv(Par.Observer.L_2))) > 0)
+    if all(eig(Par.Observer.L_1*Par.Observer.L_2+ Par.Observer.L_2*Par.Observer.L_1 - 2*Par.Observer.L_3) > 0)...
+            && all(eig(Par.Observer.L_3\Par.Observer.L_1 - inv(Par.Observer.L_2)) > 0)
         fprintf('Eigenvalues OK for bias.\n');
+    else
+        fprintf('Eigenvalues NOT OK.\n');
     end
 end
 plot_luenberger;
