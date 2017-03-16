@@ -1,8 +1,4 @@
-clearvars -except variance number
-%%thrust for simulink sim
-a = [1 0 0];
-Par.Thrust = [a;-a;a;-a;a;-a;a;-a];
-Par.thrust_time = [0; 10; 20; 30; 40; 50; 60; 70];
+clear, close all, clc
 
 %% outside workspace
 Par.Workspace.origin = [0, 0]';
@@ -41,18 +37,30 @@ Par.Observer.L_1 = diag(L_1);
 Par.Observer.L_2 = diag(L_2);
 Par.Observer.L_3 = diag(L_3);
 
+%% DP
+Par.Guidance.mu = 0.1;
+Par.Guidance.U_ref = 0.3; %m/s
+Par.Guidance.U_dot = 1; %m/s
+Par.Guidance.s_0 = 0;
+Par.Guidance.eta_d_0 = [1 1 0];
+Par.Guidance.eta_d_1 = [10 10 0];
+Par.Guidance.K_p = diag([0.2 0.2 0.1]);
+Par.Guidance.alfa_1_0 = 0;
+Par.Guidance.C_2 = 1;
+Par.Guidance.z_1_0 = [0 0 0];
+
 sim('main_luenberger');
-%% checking L matrices
-if all(eig(Par.Observer.L_1*Par.Observer.L_2+ Par.Observer.L_2*Par.Observer.L_1)) > 0
-    fprintf('All eigenvalues OK for no Bias\n');
-end
-if sum(sum(Par.Observer.L_3 ~= zeros(3))) >= 1
-    if all(eig(Par.Observer.L_1*Par.Observer.L_2+ Par.Observer.L_2*Par.Observer.L_1 - 2*Par.Observer.L_3) > 0)...
-            && all(eig(Par.Observer.L_3\Par.Observer.L_1 - inv(Par.Observer.L_2)) > 0)
-        fprintf('Eigenvalues OK for bias.\n');
-    else
-        fprintf('Eigenvalues NOT OK.\n');
-    end
-end
+% %% checking L matrices
+% if all(eig(Par.Observer.L_1*Par.Observer.L_2+ Par.Observer.L_2*Par.Observer.L_1)) > 0
+%     fprintf('All eigenvalues OK for no Bias\n');
+% end
+% if sum(sum(Par.Observer.L_3 ~= zeros(3))) >= 1
+%     if all(eig(Par.Observer.L_1*Par.Observer.L_2+ Par.Observer.L_2*Par.Observer.L_1 - 2*Par.Observer.L_3) > 0)...
+%             && all(eig(Par.Observer.L_3\Par.Observer.L_1 - inv(Par.Observer.L_2)) > 0)
+%         fprintf('Eigenvalues OK for bias.\n');
+%     else
+%         fprintf('Eigenvalues NOT OK.\n');
+%     end
+% end
 plot_luenberger;
 

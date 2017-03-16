@@ -1,3 +1,4 @@
+close all
 load('log.mat', 'x');
 
 l = 1:length(x(1, :));
@@ -10,6 +11,7 @@ eta = x(11:13, l);
 eta_m = x(14:16, l);
 nu = x(17:19, l);
 tau = x(20:22, l);
+eta_d = x(23:25, l);
 eta_tilde = eta-eta_hat;
 nu_tilde = nu-nu_hat;
 hold on
@@ -19,25 +21,25 @@ close all
 % x
 f1 = figure;
 subplot(3, 2, 1);
-plot(t, eta_hat(1, :), t, eta(1, :));
+plot(t, eta_hat(1, :), t, eta(1, :), t, eta_d(1, :));
 xlabel('Time [s]');
 ylabel('Distance [m]');
 title('Eta x');
-legend('x hat', 'x');
+legend('x hat', 'x', 'x_d');
 % y
 subplot(3, 2, 3);
-plot(t, eta_hat(2, :), t, eta(2, :));
+plot(t, eta_hat(2, :), t, eta(2, :), t, eta_d(2, :));
 xlabel('Time [s]');
 ylabel('Distance [m]');
 title('Eta y');
-legend('y hat', 'y');
+legend('y hat', 'y', 'y_d');
 % y
 subplot(3, 2, 5);
-plot(t, eta_hat(3, :), t, eta(3, :));
+plot(t, eta_hat(3, :), t, eta(3, :), t, eta_d(3, :));
 xlabel('Time [s]');
 ylabel('Distance [m]');
-title('Eta psi');
-legend('psi hat', 'psi');
+title('Eta \psi');
+legend('\psi hat', '\psi', '\psi_d');
 
 % x tilde
 subplot(3, 2, 2);
@@ -101,24 +103,44 @@ xlabel('Time [s]');
 ylabel('Distance [m]');
 title('nu tilde r');
 
-%% bias
-% b1
-f3 = figure;
+% %% bias
+% % b1
+% f3 = figure;
+% subplot(3, 1, 1);
+% plot(t, b_hat(1, :));
+% xlabel('Time [s]');
+% ylabel('Force [N]');
+% title('Bias x');
+% % b1
+% subplot(3, 1, 2);
+% plot(t, b_hat(2, :));
+% xlabel('Time [s]');
+% ylabel('Force [N]');
+% title('Bias y');
+% % b1
+% subplot(3, 1, 3);
+% plot(t, b_hat(3, :));
+% xlabel('Time [s]');
+% ylabel('Force [Nm]');
+% title('Bias r');
+% hold off
+%% tau
+f4 = figure;
+%tau X
 subplot(3, 1, 1);
-plot(t, b_hat(1, :));
+plot(t, tau(1, l));
 xlabel('Time [s]');
-ylabel('Force [N]');
-title('Bias x');
-% b1
+ylabel('X');
+title('\tau_x, X');
+% u tilde
 subplot(3, 1, 2);
-plot(t, b_hat(2, :));
+plot(t, tau(2, l));
 xlabel('Time [s]');
-ylabel('Force [N]');
-title('Bias y');
-% b1
+ylabel('Y');
+title('\tau_y, Y');
+% u tilde
 subplot(3, 1, 3);
-plot(t, b_hat(3, :));
+plot(t, tau(3, l));
 xlabel('Time [s]');
-ylabel('Force [Nm]');
-title('Bias r');
-hold off
+ylabel('R');
+title('\tau_\psi, R');
