@@ -38,15 +38,15 @@ Par.Observer.L_2 = diag(L_2);
 Par.Observer.L_3 = diag(L_3);
 
 %% DP
-Par.Guidance.mu = 1;
+Par.Guidance.mu = 0.1;
 Par.Guidance.U_ref = 0.3; %m/s
 Par.Guidance.U_ref_dot = 0; %m/s
 Par.Guidance.s_0 = 0;
-Par.Guidance.eta_d_0 = [0.1 0.1 0];
+Par.Guidance.eta_d_0 = [1 1 0];
 Par.Guidance.eta_d_1 = [10 10 0];
 Par.Guidance.K_p = diag([0.2 0.2 0.1]);
 Par.Guidance.alfa_1_0 = 0;
-Par.Guidance.C_2 = 1;
+Par.Guidance.C_2 = 2;
 Par.Guidance.z_1_0 = [0 0 0];
 
 sim('main_luenberger');
