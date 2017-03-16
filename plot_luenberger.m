@@ -14,6 +14,7 @@ tau = x(20:22, l);
 eta_d = x(23:25, l);
 eta_tilde = eta-eta_hat;
 nu_tilde = nu-nu_hat;
+eta_d_tilde = eta_d - eta_hat;
 hold on
 close all
 
@@ -26,6 +27,7 @@ xlabel('Time [s]');
 ylabel('Distance [m]');
 title('Eta x');
 legend('x hat', 'x', 'x_d');
+grid on;
 % y
 subplot(3, 2, 3);
 plot(t, eta_hat(2, :), t, eta(2, :), t, eta_d(2, :));
@@ -33,6 +35,7 @@ xlabel('Time [s]');
 ylabel('Distance [m]');
 title('Eta y');
 legend('y hat', 'y', 'y_d');
+grid on;
 % y
 subplot(3, 2, 5);
 plot(t, eta_hat(3, :), t, eta(3, :), t, eta_d(3, :));
@@ -40,25 +43,32 @@ xlabel('Time [s]');
 ylabel('Distance [m]');
 title('Eta \psi');
 legend('\psi hat', '\psi', '\psi_d');
+grid on;
 
 % x tilde
 subplot(3, 2, 2);
-plot(t, eta_tilde(1, l));
+plot(t, eta_tilde(1, l), t, eta_d_tilde(1, l));
 xlabel('Time [s]');
 ylabel('Distance [m]');
 title('Eta tilde x');
-% x tilde
+legend('eta tilde', 'x_d-x_hat');
+grid on;
+% y tilde
 subplot(3, 2, 4);
-plot(t, eta_tilde(2, l));
+plot(t, eta_tilde(2, l), t, eta_d_tilde(1, l));
 xlabel('Time [s]');
 ylabel('Distance [m]');
 title('Eta tilde y');
-% x tilde
+legend('eta tilde', 'y_d-y_hat');
+grid on;
+% psi tilde
 subplot(3, 2, 6);
-plot(t, eta_tilde(3, l));
+plot(t, eta_tilde(3, l), t, eta_d_tilde(1, l));
 xlabel('Time [s]');
 ylabel('Distance [m]');
-title('Eta tilde psi');
+title('\eta tilde \psi');
+legend('eta tilde', 'psi_d-psi_hat');
+grid on;
 
 %% Nu
 % x
@@ -69,6 +79,7 @@ xlabel('Time [s]');
 ylabel('Distance [m]');
 title('nu u');
 legend('u hat', 'u');
+grid on;
 % y
 subplot(3, 2, 3);
 plot(t, nu_hat(2, :), t, nu(2, :));
@@ -76,6 +87,7 @@ xlabel('Time [s]');
 ylabel('Distance [m]');
 title('nu v');
 legend('v hat', 'v');
+grid on;
 % y
 subplot(3, 2, 5);
 plot(t, nu_hat(3, :), t, nu(3, :));
@@ -83,6 +95,7 @@ xlabel('Time [s]');
 ylabel('Distance [m]');
 title('nu r');
 legend('r hat', 'r');
+grid on;
 
 % x tilde
 subplot(3, 2, 2);
@@ -90,18 +103,21 @@ plot(t, nu_tilde(1, l));
 xlabel('Time [s]');
 ylabel('Distance [m]');
 title('nu tilde u');
+grid on;
 % u tilde
 subplot(3, 2, 4);
 plot(t, nu_tilde(2, l));
 xlabel('Time [s]');
 ylabel('Distance [m]');
 title('nu tilde v');
+grid on;
 % u tilde
 subplot(3, 2, 6);
 plot(t, nu_tilde(3, l));
 xlabel('Time [s]');
 ylabel('Distance [m]');
 title('nu tilde r');
+grid on;
 
 % %% bias
 % % b1
@@ -132,15 +148,18 @@ plot(t, tau(1, l));
 xlabel('Time [s]');
 ylabel('X');
 title('\tau_x, X');
+grid on;
 % u tilde
 subplot(3, 1, 2);
 plot(t, tau(2, l));
 xlabel('Time [s]');
 ylabel('Y');
 title('\tau_y, Y');
+grid on;
 % u tilde
 subplot(3, 1, 3);
 plot(t, tau(3, l));
 xlabel('Time [s]');
 ylabel('R');
 title('\tau_\psi, R');
+grid on;
