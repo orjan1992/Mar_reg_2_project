@@ -12,6 +12,7 @@ eta_m = x(14:16, l);
 nu = x(17:19, l);
 tau = x(20:22, l);
 eta_d = x(23:25, l);
+alfa1 = x(26:28, l);
 eta_tilde = eta-eta_hat;
 nu_tilde = nu-nu_hat;
 eta_d_tilde = eta_d - eta_hat;
@@ -74,27 +75,27 @@ grid on;
 % x
 f2 = figure;
 subplot(3, 2, 1);
-plot(t, nu_hat(1, :), t, nu(1, :));
+plot(t, nu_hat(1, :), t, nu(1, :), t, alfa1(1, :));
 xlabel('Time [s]');
 ylabel('Distance [m]');
 title('nu u');
-legend('u hat', 'u');
+legend('u hat', 'u', 'alfa1');
 grid on;
 % y
 subplot(3, 2, 3);
-plot(t, nu_hat(2, :), t, nu(2, :));
+plot(t, nu_hat(2, :), t, nu(2, :), t, alfa1(2, :));
 xlabel('Time [s]');
 ylabel('Distance [m]');
 title('nu v');
-legend('v hat', 'v');
+legend('v hat', 'v', 'alfa1');
 grid on;
 % y
 subplot(3, 2, 5);
-plot(t, nu_hat(3, :), t, nu(3, :));
+plot(t, nu_hat(3, :), t, nu(3, :), t, alfa1(3, :));
 xlabel('Time [s]');
 ylabel('Distance [m]');
 title('nu r');
-legend('r hat', 'r');
+legend('r hat', 'r', 'alfa1');
 grid on;
 
 % x tilde
