@@ -16,6 +16,7 @@ alfa1 = x(26:28, l);
 eta_tilde = eta-eta_hat;
 nu_tilde = nu-nu_hat;
 eta_d_tilde = eta_d - eta_hat;
+z_2 = nu_hat-alfa1;
 hold on
 close all
 
@@ -48,7 +49,7 @@ grid on;
 
 % x tilde
 subplot(3, 2, 2);
-plot(t, eta_tilde(1, l), t, eta_d_tilde(1, l));
+plot(t, eta_tilde(1, :), t, eta_d_tilde(1, :));
 xlabel('Time [s]');
 ylabel('Distance [m]');
 title('Eta tilde x');
@@ -56,7 +57,7 @@ legend('eta tilde', 'x_d-x_hat');
 grid on;
 % y tilde
 subplot(3, 2, 4);
-plot(t, eta_tilde(2, l), t, eta_d_tilde(1, l));
+plot(t, eta_tilde(2, :), t, eta_d_tilde(2, :));
 xlabel('Time [s]');
 ylabel('Distance [m]');
 title('Eta tilde y');
@@ -64,7 +65,7 @@ legend('eta tilde', 'y_d-y_hat');
 grid on;
 % psi tilde
 subplot(3, 2, 6);
-plot(t, eta_tilde(3, l), t, eta_d_tilde(1, l));
+plot(t, eta_tilde(3, :), t, eta_d_tilde(3, :));
 xlabel('Time [s]');
 ylabel('Distance [m]');
 title('\eta tilde \psi');
@@ -100,21 +101,21 @@ grid on;
 
 % x tilde
 subplot(3, 2, 2);
-plot(t, nu_tilde(1, l));
+plot(t, nu_tilde(1, l), t, z_2(1, l));
 xlabel('Time [s]');
 ylabel('Distance [m]');
 title('nu tilde u');
 grid on;
 % u tilde
 subplot(3, 2, 4);
-plot(t, nu_tilde(2, l));
+plot(t, nu_tilde(2, l), t, z_2(2, l));
 xlabel('Time [s]');
 ylabel('Distance [m]');
 title('nu tilde v');
 grid on;
 % u tilde
 subplot(3, 2, 6);
-plot(t, nu_tilde(3, l));
+plot(t, nu_tilde(3, l), t, z_2(3, l));
 xlabel('Time [s]');
 ylabel('Distance [m]');
 title('nu tilde r');
