@@ -15,7 +15,7 @@ Par.Workspace.y_min = Par.Workspace.y_min_limit + Par.Workspace.threshold;
 Par.Workspace.y_max = Par.Workspace.y_max_limit - Par.Workspace.threshold;
 
 %% noise and dropout
-Par.Noise.Enable = 1;
+Par.Noise.Enable = 0;
 Par.Noise.power = 1e-4;
 Par.Noise.Sample_freq = 100;
 
@@ -36,9 +36,10 @@ Par.Observer.M_inv = inv([16.79 0 0; 0 15.7900 0.5546; 0 0.5546 2.7600]);
 Par.Observer.L_1 = diag(L_1);
 Par.Observer.L_2 = diag(L_2);
 Par.Observer.L_3 = diag(L_3);
+Par.Observer.x_0 = zeros(9, 1);
 
 %% DP
-Par.Guidance.mu = 0.1;
+Par.Guidance.mu = 0.001;
 Par.Guidance.U_ref = 0.3; %m/s
 Par.Guidance.U_ref_dot = 0; %m/s
 Par.Guidance.s_0 = 0;
@@ -47,7 +48,7 @@ Par.Guidance.eta_d_1 = [10 10 0];
 Par.Guidance.K_p = diag([0.2 0.2 0.1]);
 Par.Guidance.alfa_1_0 = 0;
 Par.Guidance.C_2 = 2;
-Par.Guidance.z_1_0 = [0 0 0];
+Par.Guidance.z_1_0 = Par.Observer.x_0(1:3)' - Par.Guidance.eta_d_0;
 
 sim('main_luenberger');
 % %% checking L matrices
