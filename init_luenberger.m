@@ -40,7 +40,7 @@ Par.Observer.x_0 = zeros(9, 1);
 
 %% DP
 Par.Guidance.mu = 0.1;
-Par.Guidance.U_ref = 0.3; %m/s
+Par.Guidance.U_ref = 0.05; %m/s
 Par.Guidance.U_ref_dot = 0; %m/s
 Par.Guidance.s_0 = 0;
 Par.Guidance.eta_d_0 = [0.1 0.1 0];
@@ -48,6 +48,9 @@ Par.Guidance.eta_d_1 = [10 10 0];
 Par.Guidance.K_p = diag([0.2 0.2 0.1]);
 Par.Guidance.c_2 = 1;
 Par.Guidance.M = [16.79 0 0; 0 15.7900 0.5546; 0 0.5546 2.7600];
+Par.Guidance.Ellipsoid = 0;
+Par.Guidance.r = [6 1];
+Par.Guidance.c = [5 3];
 
 sim('main_luenberger');
 % %% checking L matrices

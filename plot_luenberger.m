@@ -13,90 +13,96 @@ nu = x(17:19, l);
 tau = x(20:22, l);
 eta_d = x(23:25, l);
 alfa1 = x(26:28, l);
+eta_hat(3, l) = eta_hat(3, l)*180/pi;
+nu_hat(3, l) = nu_hat(3, l)*180/pi;
+eta(3, l) = eta(3, l)*180/pi;
+eta_m(3, l) = eta_m(3, l)*180/pi;
+nu(3, l) = nu(3, l)*180/pi;
+eta_d(3, l) = eta_d(3, l)*180/pi;
+alfa1(3, l) = alfa1(3, l)*180/pi;
 eta_tilde = eta-eta_hat;
 nu_tilde = nu-nu_hat;
 eta_d_tilde = eta_d - eta_hat;
 z_2 = nu_hat-alfa1;
-hold on
 close all
 
 %% Eta
 % x
 f1 = figure;
 subplot(3, 2, 1);
-plot(t, eta_hat(1, :), t, eta(1, :), t, eta_d(1, :));
+plot(t, eta_hat(1, l), t, eta(1, l), t, eta_d(1, l));
 xlabel('Time [s]');
 ylabel('Distance [m]');
-title('Eta x');
-legend('x hat', 'x', 'x_d');
+title('\eta x');
+legend({'$\hat{x}$', 'x', '$x_d$'},'Interpreter','latex');
 grid on;
 % y
 subplot(3, 2, 3);
-plot(t, eta_hat(2, :), t, eta(2, :), t, eta_d(2, :));
+plot(t, eta_hat(2, l), t, eta(2, l), t, eta_d(2, l));
 xlabel('Time [s]');
 ylabel('Distance [m]');
-title('Eta y');
-legend('y hat', 'y', 'y_d');
+title('\eta y');
+legend({'$\hat{y}$', 'y', '$y_d$'},'Interpreter','latex');
 grid on;
 % y
 subplot(3, 2, 5);
-plot(t, eta_hat(3, :), t, eta(3, :), t, eta_d(3, :));
+plot(t, eta_hat(3, l), t, eta(3, l), t, eta_d(3, l));
 xlabel('Time [s]');
-ylabel('Distance [m]');
-title('Eta \psi');
-legend('\psi hat', '\psi', '\psi_d');
+ylabel('Angle [degrees]');
+title('\eta \psi');
+legend({'$\hat{\psi}$', '$\psi$', '$\psi_d$'},'Interpreter','latex');
 grid on;
 
 % x tilde
 subplot(3, 2, 2);
-plot(t, eta_tilde(1, :), t, eta_d_tilde(1, :));
+plot(t, eta_tilde(1, l), t, eta_d_tilde(1, l));
 xlabel('Time [s]');
 ylabel('Distance [m]');
-title('Eta tilde x');
-legend('eta tilde', 'x_d-x_hat');
+title({'$\tilde{x}$'}, 'Interpreter','latex');
+legend({'$\tilde{\eta}$ x', '$RZ_1$ x'},'Interpreter','latex');
 grid on;
 % y tilde
 subplot(3, 2, 4);
-plot(t, eta_tilde(2, :), t, eta_d_tilde(2, :));
+plot(t, eta_tilde(2, l), t, eta_d_tilde(2, l));
 xlabel('Time [s]');
 ylabel('Distance [m]');
-title('Eta tilde y');
-legend('eta tilde', 'y_d-y_hat');
+title({'$\tilde{y}$'}, 'Interpreter','latex');
+legend({'$\tilde{\eta}$ y', '$RZ_1$ y'},'Interpreter','latex');
 grid on;
 % psi tilde
 subplot(3, 2, 6);
-plot(t, eta_tilde(3, :), t, eta_d_tilde(3, :));
+plot(t, eta_tilde(3, l), t, eta_d_tilde(3, l));
 xlabel('Time [s]');
 ylabel('Distance [m]');
-title('\eta tilde \psi');
-legend('eta tilde', 'psi_d-psi_hat');
+title({'$\tilde{\psi}$'}, 'Interpreter','latex');
+legend({'$\tilde{\eta}~\psi$', '$RZ_1~\psi$'},'Interpreter','latex');
 grid on;
 
 %% Nu
-% x
+% u
 f2 = figure;
 subplot(3, 2, 1);
-plot(t, nu_hat(1, :), t, nu(1, :), t, alfa1(1, :));
+plot(t, nu_hat(1, l), t, nu(1, l), t, alfa1(1, l));
 xlabel('Time [s]');
 ylabel('Distance [m]');
-title('nu u');
-legend('u hat', 'u', 'alfa1');
+title({'$\nu$ u'},'Interpreter','latex');
+legend({'$\hat{\nu}~u$', 'u', '$\alpha_1$'},'Interpreter','latex');
 grid on;
-% y
+% v
 subplot(3, 2, 3);
-plot(t, nu_hat(2, :), t, nu(2, :), t, alfa1(2, :));
+plot(t, nu_hat(2, l), t, nu(2, l), t, alfa1(2, l));
 xlabel('Time [s]');
 ylabel('Distance [m]');
-title('nu v');
-legend('v hat', 'v', 'alfa1');
+title({'$\nu$ v'},'Interpreter','latex');
+legend({'$\hat{\nu}~v$', 'v', '$\alpha_1$'},'Interpreter','latex');
 grid on;
-% y
+% r
 subplot(3, 2, 5);
-plot(t, nu_hat(3, :), t, nu(3, :), t, alfa1(3, :));
+plot(t, nu_hat(3, l), t, nu(3, l), t, alfa1(3, l));
 xlabel('Time [s]');
-ylabel('Distance [m]');
-title('nu r');
-legend('r hat', 'r', 'alfa1');
+ylabel('Angle [degrees]');
+title('$\nu$ r','Interpreter','latex');
+legend({'$\hat{\nu}~r$', '$\alpha_1$'},'Interpreter','latex');
 grid on;
 
 % x tilde
@@ -104,40 +110,43 @@ subplot(3, 2, 2);
 plot(t, nu_tilde(1, l), t, z_2(1, l));
 xlabel('Time [s]');
 ylabel('Distance [m]');
-title('nu tilde u');
+title({'$\tilde{\nu}~u$'},'Interpreter','latex');
+legend({'$\tilde{\nu}~u$', '$z_2$'},'Interpreter','latex');
 grid on;
 % u tilde
 subplot(3, 2, 4);
 plot(t, nu_tilde(2, l), t, z_2(2, l));
 xlabel('Time [s]');
 ylabel('Distance [m]');
-title('nu tilde v');
+title({'$\tilde{\nu}~v$'},'Interpreter','latex');
+legend({'$\tilde{\nu}~v$', '$z_2$'},'Interpreter','latex');
 grid on;
 % u tilde
 subplot(3, 2, 6);
 plot(t, nu_tilde(3, l), t, z_2(3, l));
 xlabel('Time [s]');
-ylabel('Distance [m]');
-title('nu tilde r');
+ylabel('Angle [degrees]');
+title({'$\tilde{\nu}~r$'},'Interpreter','latex');
+legend({'$\tilde{\nu}~r$', '$z_2$'},'Interpreter','latex');
 grid on;
 
 % %% bias
 % % b1
 % f3 = figure;
 % subplot(3, 1, 1);
-% plot(t, b_hat(1, :));
+% plot(t, b_hat(1, l));
 % xlabel('Time [s]');
 % ylabel('Force [N]');
 % title('Bias x');
 % % b1
 % subplot(3, 1, 2);
-% plot(t, b_hat(2, :));
+% plot(t, b_hat(2, l));
 % xlabel('Time [s]');
 % ylabel('Force [N]');
 % title('Bias y');
 % % b1
 % subplot(3, 1, 3);
-% plot(t, b_hat(3, :));
+% plot(t, b_hat(3, l));
 % xlabel('Time [s]');
 % ylabel('Force [Nm]');
 % title('Bias r');
@@ -165,3 +174,32 @@ xlabel('Time [s]');
 ylabel('R');
 title('\tau_\psi, R');
 grid on;
+
+%% xy plot
+f5 = figure;
+plot(eta_hat(2, l), eta_hat(1, l));
+hold on;
+plot(eta(2, l), eta(1, l));
+plot(eta_d(2, l), eta(1, l));
+j = 0;
+for i = l
+    if t(i) >= j
+%         pd(1) = sin(eta_hat(3, i)*pi/180);
+%         pd(2) = cos(eta_hat(3, i)*pi/180);
+%         pd = 2*pd/norm(pd, 2);
+%         norm(pd, 2)
+%         quiver(eta_hat(2, i),eta_hat(1, i),pd(1),pd(2),1, 'r', 'LineWidth', 1.5)
+        %annotation('textarrow',x, y,'String',strcat('t = ', num2str(t(i))));
+        
+        ha(i) = annotation('textarrow', 'String',strcat('t = ', num2str(t(i))));  % store the arrow information in ha(i)
+        ha(i).Parent = gca;           % associate the arrow the the current axes
+        ha(i).X = [eta_hat(2, i), eta_hat(2, i)+sin(eta_hat(3, i)*pi/180)];          % the location in data units
+        ha(i).Y = [eta_hat(1, i), eta_hat(1, i)+cos(eta_hat(3, i)*pi/180)];   
+
+%         ha(i).LineWidth  = 1;          % make the arrow bolder for the picture
+%         ha(i).HeadWidth  = 10;
+%         ha(i).HeadLength = 10;
+        j = j+10;
+    end
+end
+legend({'$\hat{\eta}$', '$\eta$' '$\eta_d$'},'Interpreter','latex');
