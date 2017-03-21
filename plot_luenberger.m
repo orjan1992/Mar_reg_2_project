@@ -182,6 +182,7 @@ hold on;
 plot(eta(2, l), eta(1, l));
 plot(eta_d(2, l), eta(1, l));
 j = 0;
+k = 1;
 for i = l
     if t(i) >= j
 %         pd(1) = sin(eta_hat(3, i)*pi/180);
@@ -191,11 +192,11 @@ for i = l
 %         quiver(eta_hat(2, i),eta_hat(1, i),pd(1),pd(2),1, 'r', 'LineWidth', 1.5)
         %annotation('textarrow',x, y,'String',strcat('t = ', num2str(t(i))));
         
-        ha(i) = annotation('textarrow', 'String',strcat('t = ', num2str(t(i))));  % store the arrow information in ha(i)
-        ha(i).Parent = gca;           % associate the arrow the the current axes
-        ha(i).X = [eta_hat(2, i), eta_hat(2, i)+sin(eta_hat(3, i)*pi/180)];          % the location in data units
-        ha(i).Y = [eta_hat(1, i), eta_hat(1, i)+cos(eta_hat(3, i)*pi/180)];   
-
+        ha(k) = annotation('textarrow', 'String',strcat('t = ', num2str(t(i))));  % store the arrow information in ha(i)
+        ha(k).Parent = gca;           % associate the arrow the the current axes
+        ha(k).X = [eta(2, i), eta(2, i)+sin(eta(3, i)*pi/180)];          % the location in data units
+        ha(k).Y = [eta(1, i), eta(1, i)+cos(eta(3, i)*pi/180)];   
+        k = k+1;
 %         ha(i).LineWidth  = 1;          % make the arrow bolder for the picture
 %         ha(i).HeadWidth  = 10;
 %         ha(i).HeadLength = 10;
