@@ -13,6 +13,7 @@ nu = x(17:19, l);
 tau = x(20:22, l);
 eta_d = x(23:25, l);
 alfa1 = x(26:28, l);
+
 eta_hat(3, l) = eta_hat(3, l)*180/pi;
 nu_hat(3, l) = nu_hat(3, l)*180/pi;
 eta(3, l) = eta(3, l)*180/pi;
@@ -20,6 +21,7 @@ eta_m(3, l) = eta_m(3, l)*180/pi;
 nu(3, l) = nu(3, l)*180/pi;
 eta_d(3, l) = eta_d(3, l)*180/pi;
 alfa1(3, l) = alfa1(3, l)*180/pi;
+
 eta_tilde = eta-eta_hat;
 nu_tilde = nu-nu_hat;
 eta_d_tilde = eta_d - eta_hat;
@@ -180,27 +182,48 @@ f5 = figure;
 plot(eta_hat(2, l), eta_hat(1, l));
 hold on;
 plot(eta(2, l), eta(1, l));
-plot(eta_d(2, l), eta(1, l));
+plot(eta_d(2, l), eta_d(1, l));
 j = 0;
 k = 1;
 for i = l
     if t(i) >= j
-%         pd(1) = sin(eta_hat(3, i)*pi/180);
-%         pd(2) = cos(eta_hat(3, i)*pi/180);
-%         pd = 2*pd/norm(pd, 2);
-%         norm(pd, 2)
-%         quiver(eta_hat(2, i),eta_hat(1, i),pd(1),pd(2),1, 'r', 'LineWidth', 1.5)
-        %annotation('textarrow',x, y,'String',strcat('t = ', num2str(t(i))));
-        
         ha(k) = annotation('textarrow', 'String',strcat('t = ', num2str(t(i))));  % store the arrow information in ha(i)
         ha(k).Parent = gca;           % associate the arrow the the current axes
         ha(k).X = [eta(2, i), eta(2, i)+sin(eta(3, i)*pi/180)];          % the location in data units
         ha(k).Y = [eta(1, i), eta(1, i)+cos(eta(3, i)*pi/180)];   
         k = k+1;
-%         ha(i).LineWidth  = 1;          % make the arrow bolder for the picture
-%         ha(i).HeadWidth  = 10;
-%         ha(i).HeadLength = 10;
         j = j+10;
     end
 end
-legend({'$\hat{\eta}$', '$\eta$' '$\eta_d$'},'Interpreter','latex');
+Par.Guidance.r = [6 1];
+Par.Guidance.c = [5 3];
+% s = 0:0.01:2*pi;
+s = -30:0.1:100;
+for i = 1:length(s)
+    x_d(i) = Par.Guidance.r(1)*cos(s(i)) + Par.Guidance.c(1);
+    y_d(i) = Par.Guidance.r(2)*sin(s(i)) + Par.Guidance.c(2);
+end
+
+% lim = [min([xlim, ylim]) max([xlim, ylim])];
+% xlim(lim);
+% ylim(lim);
+% legend({'$\hat{\eta}$', '$\eta$' '$\eta_d$'},'Interpreter','latex');
+% 
+% f6 = figure;
+% tri_size = 1;
+% N_frames = 200;
+% l2 = 1:floor(length(l)/N_frames):length(l);
+% 
+% for i = l2
+%     r = eta(3, i)*pi/180;
+%     x = eta(2, i);
+%     y = eta(1, i);
+%     plot(eta(2, 1:i), eta(1, 1:i), 'b');
+%     axis([lim lim])
+%     hold on;
+%     plot([x+cos(r + pi/2)*tri_size/2, x+cos(r)*tri_size], [y+sin(r + pi/2)*tri_size/2, y+sin(r)*tri_size], 'Color', 'r');
+%     plot([x+cos(r - pi/2)*tri_size/2, x+cos(r)*tri_size], [y+sin(r - pi/2)*tri_size/2, y+sin(r)*tri_size], 'Color', 'r');
+%     plot([x+cos(r + pi/2)*tri_size/2, x+cos(r - pi/2)*tri_size/2], [y+sin(r + pi/2)*tri_size/2, y+sin(r - pi/2)*tri_size/2], 'Color', 'r');
+%     hold off;
+%     M(i)=getframe(gca);
+% end
