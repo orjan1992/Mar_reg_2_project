@@ -41,7 +41,7 @@ Par.Observer.x_0(1:3) = Par.Model.Eta_0;
 
 %% DP
 Par.Guidance.mu = 0;
-Par.Guidance.U_ref = 0.03; %m/s
+Par.Guidance.U_ref = 0.05; %m/s
 Par.Guidance.U_ref_dot = 0; %m/s
 Par.Guidance.s_0 = 0;
 Par.Guidance.eta_d_0 = Par.Model.Eta_0 + [0.1 0.1 0];
