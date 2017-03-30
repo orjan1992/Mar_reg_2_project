@@ -192,7 +192,7 @@ for i = l
         ha(k).X = [eta(2, i), eta(2, i)+sin(eta(3, i)*pi/180)];          % the location in data units
         ha(k).Y = [eta(1, i), eta(1, i)+cos(eta(3, i)*pi/180)];   
         k = k+1;
-        j = j+10;
+        j = j+40;
     end
 end
 Par.Guidance.r = [6 1];
