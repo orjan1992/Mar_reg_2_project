@@ -40,7 +40,7 @@ Par.Model.Eta_0 = [11, 3, pi/2];
 Par.Observer.x_0(1:3) = Par.Model.Eta_0;
 
 %% DP
-Par.Guidance.mu = 0.2;
+Par.Guidance.mu = 0;
 Par.Guidance.U_ref = 0.05; %m/s
 Par.Guidance.U_ref_dot = 0; %m/s
 Par.Guidance.s_0 = 0;
@@ -54,26 +54,22 @@ Par.Guidance.r = [6 1];
 Par.Guidance.c = [5 3];
 Par.Guidance.constant_heading = 0;
 Par.Guidance.heading = pi/2;
-
-c_2 = 0:0.1:3;
-for i = 1:length(c_2)
-    Par.Guidance.K_p(1, 1) = c_2(i);
+   fig = figure();
+K_p = [0.05 0.1 0.2 0.5 1 2];
+for i = 1:length(K_p)
+    Par.Guidance.K_p(1, 1) = K_p(i);
     sim('main_luenberger');
     pause(2);
-    load('log.mat', 'x');
+ 
+    fig = multiplot('x_tilde', fig, K_p(i), 0);
     pause(2);
-    l = 1:length(x(1, :));
-    t = x(1, l);
-    eta = x(11:13, l);
-    eta_d = x(23:25, l);
-    eta_bar = ((eta(1, :)-eta_d(1, :)).^2 + (eta(2, :)-eta_d(2, :)).^2).^(1/2);
-    var_eta(i) = sum(eta_bar);
 end
+fig = multiplot('x_tilde', fig, [], 1);
 [val, i] = min(var_eta);
 c_2(i)
 
 
-sim('main_luenberger');
+% sim('main_luenberger');
 
 % %% checking L matrices
 % if all(eig(Par.Observer.L_1*Par.Observer.L_2+ Par.Observer.L_2*Par.Observer.L_1)) > 0
