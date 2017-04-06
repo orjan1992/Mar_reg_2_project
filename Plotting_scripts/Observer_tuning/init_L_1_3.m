@@ -28,8 +28,8 @@ Par.Sample_time = 1/Par.Noise.Sample_freq;
 Par.Thrust_lim = [1.03 2.5 0.98]';
 
 %% Observer
-L_1 = [1 1 1];
-L_2 = [2 2 1];
+L_1 = [1 1 1]*5;
+L_2 = [1 1 1]*1;
 L_3 = [1 1 1]*1;
 Par.Observer.M_inv = inv([16.79 0 0; 0 15.7900 0.5546; 0 0.5546 2.7600]);
 Par.Observer.L_1 = diag(L_1);
@@ -40,7 +40,7 @@ Par.Model.Eta_0 = [11, 3, pi/2];
 Par.Observer.x_0(1:3) = Par.Model.Eta_0;
 
 %% DP
-Par.Guidance.mu = 0.2;
+Par.Guidance.mu = 0;
 Par.Guidance.U_ref = 0.05; %m/s
 Par.Guidance.U_ref_dot = 0; %m/s
 Par.Guidance.s_0 = 0;
@@ -54,20 +54,34 @@ Par.Guidance.r = [6 1];
 Par.Guidance.c = [5 3];
 Par.Guidance.constant_heading = 0;
 Par.Guidance.heading = pi/2;
+%    fig = figure();
+L = [10 2 1 0.5];
+f1 = figure();
+leg ={};
+for i = 1:length(L)
+    Par.Observer.L_1(3, 3) = L(i);
+    sim('main_luenberger');
+    pause(2);
+    load('log.mat', 'x');
 
-sim('main_luenberger');
-
-%% checking L matrices
-if all(eig(Par.Observer.L_1*Par.Observer.L_2+ Par.Observer.L_2*Par.Observer.L_1)) > 0
-    fprintf('All eigenvalues OK for no Bias\n');
+    l = 1:length(x(1, :));
+    t = x(1, l);
+    eta = x(11:13, l);
+    eta_hat = x(2:4, l);
+    eta_tilde = eta-eta_hat;
+    figure(f1);
+    hold on;
+    plot(t, eta_tilde(3, l).*180/pi, 'Linewidth', 1.5);
+    leg{i} = num2str(L(i));
+    variance(i) = var(eta_tilde(1, l));
+    %fprintf('K_p = %4.2f, \t\t Var(eta_tilde) = %5.4d\n', K_p(i), var(eta_tilde(1, l)));
+%     fig = multiplot('x_tilde', fig, K_p(i), 0);
+    pause(2);
 end
-if sum(sum(Par.Observer.L_3 ~= zeros(3))) >= 1
-    if all(eig(Par.Observer.L_1*Par.Observer.L_2+ Par.Observer.L_2*Par.Observer.L_1 - 2*Par.Observer.L_3) > 0)...
-            && all(eig(Par.Observer.L_3\Par.Observer.L_1 - inv(Par.Observer.L_2)) > 0)
-        fprintf('Eigenvalues OK for bias.\n');
-    else
-        fprintf('Eigenvalues NOT OK.\n');
-    end
-end
-plot_luenberger;
-
+figure(f1);
+legend(leg, 'Interpreter', 'Latex');
+xlabel('Time [s]');
+ylabel('[degrees]');
+title('$\tilde{\psi}$ with different values of $L_1(3,3)$', 'Interpreter', 'Latex');
+grid on;
+print('L_1_3','-depsc')

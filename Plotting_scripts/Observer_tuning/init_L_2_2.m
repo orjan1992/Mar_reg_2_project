@@ -28,9 +28,9 @@ Par.Sample_time = 1/Par.Noise.Sample_freq;
 Par.Thrust_lim = [1.03 2.5 0.98]';
 
 %% Observer
-L_1 = [1 1 1]*5;
-L_2 = [1 1 1]*1;
-L_3 = [1 1 1]*1;
+L_1 = [1 1 1];
+L_2 = [2 1 1];
+L_3 = [1 1 1];
 Par.Observer.M_inv = inv([16.79 0 0; 0 15.7900 0.5546; 0 0.5546 2.7600]);
 Par.Observer.L_1 = diag(L_1);
 Par.Observer.L_2 = diag(L_2);
@@ -54,34 +54,36 @@ Par.Guidance.r = [6 1];
 Par.Guidance.c = [5 3];
 Par.Guidance.constant_heading = 0;
 Par.Guidance.heading = pi/2;
-   fig = figure();
-K_p = [0.05 0.1 0.2 0.5 1 2];
-for i = 1:length(K_p)
-    Par.Guidance.K_p(1, 1) = K_p(i);
+%    fig = figure();
+L = [10 2 1 0.5];
+f1 = figure();
+leg ={};
+for i = 1:length(L)
+    Par.Observer.L_2(2, 2) = L(i);
     sim('main_luenberger');
     pause(2);
- 
-    fig = multiplot('x_tilde', fig, K_p(i), 0);
+    load('log.mat', 'x');
+
+    l = 1:length(x(1, :));
+    t = x(1, l);
+%     eta = x(11:13, l);
+%     eta_hat = x(2:4, l);
+%     eta_tilde = eta-eta_hat;
+    nu = x(17:19, l);
+    nu_hat = x(5:7, l);
+    nu_tilde = nu-nu_hat;
+    figure(f1);
+    hold on;
+    plot(t, nu_tilde(2, l), 'Linewidth', 1.5);
+    leg{i} = num2str(L(i));
+    %fprintf('K_p = %4.2f, \t\t Var(eta_tilde) = %5.4d\n', K_p(i), var(eta_tilde(1, l)));
+%     fig = multiplot('x_tilde', fig, K_p(i), 0);
     pause(2);
 end
-fig = multiplot('x_tilde', fig, [], 1);
-[val, i] = min(var_eta);
-c_2(i)
-
-
-% sim('main_luenberger');
-
-% %% checking L matrices
-% if all(eig(Par.Observer.L_1*Par.Observer.L_2+ Par.Observer.L_2*Par.Observer.L_1)) > 0
-%     fprintf('All eigenvalues OK for no Bias\n');
-% end
-% if sum(sum(Par.Observer.L_3 ~= zeros(3))) >= 1
-%     if all(eig(Par.Observer.L_1*Par.Observer.L_2+ Par.Observer.L_2*Par.Observer.L_1 - 2*Par.Observer.L_3) > 0)...
-%             && all(eig(Par.Observer.L_3\Par.Observer.L_1 - inv(Par.Observer.L_2)) > 0)
-%         fprintf('Eigenvalues OK for bias.\n');
-%     else
-%         fprintf('Eigenvalues NOT OK.\n');
-%     end
-% end
-plot_luenberger;
-
+figure(f1);
+legend(leg, 'Interpreter', 'Latex');
+xlabel('Time [s]');
+ylabel('[m/s]');
+title('$\tilde{v}$ with different values of $L_2(2,2)$', 'Interpreter', 'Latex');
+grid on;
+print('L_2_2','-depsc')
