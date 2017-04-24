@@ -30,7 +30,7 @@ Par.Thrust_lim = [1.03 2.5 0.98]';
 %% Observer
 L_1 = [1 1 1];
 L_2 = [2 2 2];
-L_3 = [0.5 1 1];
+L_3 = [0.5 0.5 0.5];
 Par.Observer.M_inv = inv([16.79 0 0; 0 15.7900 0.5546; 0 0.5546 2.7600]);
 Par.Observer.L_1 = diag(L_1);
 Par.Observer.L_2 = diag(L_2);
