@@ -16,11 +16,12 @@ Par.Workspace.y_max = Par.Workspace.y_max_limit - Par.Workspace.threshold;
 %% noise and dropout
 Par.Noise.Enable = 1;
 Par.Noise.power = 1e-4;
+Par.Noise.power_imu = 1e-5;
 Par.Noise.Sample_freq = 100;
 
-Par.Freeze.Enable = 0;
+Par.Freeze.Enable = 1;
 Par.Freeze.length = 1.5;
-Par.Freeze.threshold = 8;%3.0;
+Par.Freeze.threshold = 3;%3.0;
 Par.Freeze.Power = 1;
 Par.Sample_time = 1/Par.Noise.Sample_freq;
 
@@ -28,15 +29,15 @@ Par.Sample_time = 1/Par.Noise.Sample_freq;
 Par.Thrust_lim = [1.03 2.5 0.98]';
 
 %% Observer
-L_1 = [1 1 1];
-L_2 = [2 2 1];
+L_1 = [5 5 5];
+L_2 = [5 5 5];
 L_3 = [1 1 1]*1;
 Par.Observer.M_inv = inv([16.79 0 0; 0 15.7900 0.5546; 0 0.5546 2.7600]);
 Par.Observer.L_1 = diag(L_1);
 Par.Observer.L_2 = diag(L_2);
 Par.Observer.L_3 = diag(L_3);
 Par.Observer.x_0 = zeros(9, 1);
-Par.Model.Eta_0 = [11, 3, pi/2];
+Par.Model.Eta_0 = [0 0 0];
 Par.Observer.x_0(1:3) = Par.Model.Eta_0;
 
 %% DP
