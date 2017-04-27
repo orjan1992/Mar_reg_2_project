@@ -19,9 +19,9 @@ Par.Noise.power = 1e-4;
 Par.Noise.power_imu = 1e-5;
 Par.Noise.Sample_freq = 100;
 
-Par.Freeze.Enable = 1;
-Par.Freeze.length = 1.5;
-Par.Freeze.threshold = 3;%3.0;
+Par.Freeze.Enable = 0;
+Par.Freeze.length = 4;
+Par.Freeze.threshold = 3.4;%3.0;
 Par.Freeze.Power = 1;
 Par.Sample_time = 1/Par.Noise.Sample_freq;
 
@@ -37,12 +37,12 @@ Par.Observer.L_1 = diag(L_1);
 Par.Observer.L_2 = diag(L_2);
 Par.Observer.L_3 = diag(L_3);
 Par.Observer.x_0 = zeros(9, 1);
-Par.Model.Eta_0 = [0 0 0];
+Par.Model.Eta_0 = [0.2 2.6 -pi/4];
 Par.Observer.x_0(1:3) = Par.Model.Eta_0;
 
 %% DP
 Par.Guidance.mu = 0.2;
-Par.Guidance.U_ref = 0.05; %m/s
+Par.Guidance.U_ref = 0.1; %m/s
 Par.Guidance.U_ref_dot = 0; %m/s
 Par.Guidance.s_0 = 0;
 Par.Guidance.eta_d_0 = Par.Model.Eta_0 + [0.1 0.1 0];
@@ -50,7 +50,7 @@ Par.Guidance.eta_d_1 = [10 10 0];
 Par.Guidance.K_p = diag([0.1 0.2 0.5]);
 Par.Guidance.c_2 = 1.8;
 Par.Guidance.M = [16.79 0 0; 0 15.7900 0.5546; 0 0.5546 2.7600];
-Par.Guidance.Ellipsoid = 1;
+Par.Guidance.Ellipsoid = 0;
 Par.Guidance.r = [6 1];
 Par.Guidance.c = [5 3];
 Par.Guidance.constant_heading = 0;
